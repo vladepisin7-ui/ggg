@@ -64,6 +64,7 @@ async def handle_order(data: OrderData):
             lines = [
                 "🛒 <b>Новый заказ!</b>",
                 f"📦 Режим: {mode_name}",
+                f"📱 Телефон: {data.phone}",
                 f"🕐 Время: {data.time}",
             ]
             if is_booking:

@@ -947,6 +947,10 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
         </div>
       </div>
     </div>
+    <div class="opt-block" id="phoneWrap" style="display:none">
+      <label class="opt-label" for="phoneInput">📱 Телефон</label>
+      <input id="phoneInput" type="tel" placeholder="+7 (___) ___-__-__" maxlength="18">
+    </div>
     <div class="opt-block">
       <label class="opt-label" for="timeSel" id="timeLabel">🕐 Время получения</label>
       <select id="timeSel"></select>
@@ -996,6 +1000,8 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
     addrInput: document.getElementById('addrInput'),
     guestsWrap: document.getElementById('guestsWrap'),
     guestsVal: document.getElementById('guestsVal'),
+    phoneWrap: document.getElementById('phoneWrap'),
+    phoneInput: document.getElementById('phoneInput'),
     deliveryNote: document.getElementById('deliveryNote'),
     orderBtn: document.getElementById('cartOrder'),
     orderLabel: document.getElementById('orderLabel'),
@@ -1082,6 +1088,7 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
     });
     els.addrWrap.style.display = (mode === 'delivery') ? 'flex' : 'none';
     els.guestsWrap.style.display = (mode === 'booking') ? 'flex' : 'none';
+    els.phoneWrap.style.display = (mode === 'pickup' || mode === 'delivery' || mode === 'booking') ? 'flex' : 'none';
     els.deliveryNote.style.display = (mode === 'delivery') ? 'block' : 'none';
     els.timeLabel.textContent = (mode === 'booking') ? '🕐 Время брони' : '🕐 Время получения';
     els.orderLabel.textContent = (mode === 'booking') ? 'Забронировать' : 'Заказать';
@@ -1170,10 +1177,18 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
 
   var addrInput = document.getElementById('addrInput');
   var commentInput = document.getElementById('commentInput');
+  var phoneInput = document.getElementById('phoneInput');
   addrInput.addEventListener('input', function(){ localStorage.setItem('kr_addr', addrInput.value); });
   commentInput.addEventListener('input', function(){ localStorage.setItem('kr_comment', commentInput.value); });
+  phoneInput.addEventListener('input', function(){
+    // Только цифры и +
+    var val = phoneInput.value.replace(/[^\d+]/g, '');
+    phoneInput.value = val;
+    localStorage.setItem('kr_phone', val);
+  });
   try { addrInput.value = localStorage.getItem('kr_addr') || ''; } catch(e){}
   try { commentInput.value = localStorage.getItem('kr_comment') || ''; } catch(e){}
+  try { phoneInput.value = localStorage.getItem('kr_phone') || ''; } catch(e){}
 
   // ---------- открытие / закрытие ----------
   function openCart(){
@@ -1223,6 +1238,26 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
       }
       return;
     }
+    if (mode === 'delivery'){
+      if (!addrInput.value.trim()){
+        if (els.toast){
+          els.toast.textContent = 'Введите адрес доставки';
+          els.toast.classList.add('show');
+          setTimeout(function(){ els.toast.classList.remove('show'); }, 2000);
+        }
+        return;
+      }
+    }
+    if (mode === 'pickup' || mode === 'delivery' || mode === 'booking'){
+      if (!phoneInput.value.trim() || phoneInput.value.replace(/\D/g, '').length < 10){
+        if (els.toast){
+          els.toast.textContent = 'Введите номер телефона';
+          els.toast.classList.add('show');
+          setTimeout(function(){ els.toast.classList.remove('show'); }, 2000);
+        }
+        return;
+      }
+    }
 
     // Блокируем кнопку
     els.orderBtn.disabled = true;
@@ -1234,6 +1269,7 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
       time: els.timeSel.value,
       guests: guests,
       address: addrInput.value.trim(),
+      phone: phoneInput.value.trim(),
       items: names.map(function(n){
         return { name: n, qty: cart[n].qty, price: cart[n].price };
       }),
