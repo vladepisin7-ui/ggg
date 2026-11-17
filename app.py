@@ -22,13 +22,15 @@ CHAT_ID = os.getenv("TG_CHAT_ID", "")
 
 
 class OrderData(BaseModel):
-    mode: str  # pickup, delivery, booking
+    mode: str  # pickup, delivery, booking, contact
     time: str
     guests: int = 2
     address: str = ""
-    items: list  # [{"name": "...", "qty": 1, "price": 270}]
+    items: list = []
     comment: str = ""
-    total: int
+    total: int = 0
+    name: str = ""
+    phone: str = ""
 
 
 @app.post("/order")
@@ -39,28 +41,37 @@ async def handle_order(data: OrderData):
             content={"error": "Бот не настроен на сервере"},
         )
 
-    mode_name = {"pickup": "Самовывоз", "delivery": "Доставка", "booking": "Бронь столика"}[data.mode]
-    is_booking = data.mode == "booking"
+    if data.mode == "contact":
+        text = (
+            "📩 <b>Заявка с сайта</b>\n"
+            f"👤 Имя: {data.name}\n"
+            f"📱 Телефон: {data.phone}\n"
+            f"💬 Комментарий: {data.comment}\n"
+            f"🕐 Время: {data.time}"
+        )
+    else:
+        mode_name = {"pickup": "Самовывоз", "delivery": "Доставка", "booking": "Бронь столика"}[data.mode]
+        is_booking = data.mode == "booking"
 
-    lines = [
-        "🛒 <b>Новый заказ!</b>",
-        f"📦 Режим: {mode_name}",
-        f"🕐 Время: {data.time}",
-    ]
-    if is_booking:
-        lines.append(f"👥 Гостей: {data.guests}")
-    if data.address:
-        lines.append(f"🏠 Адрес: {data.address}")
-    lines.append("")
-    lines.append("<b>Состав заказа:</b>")
-    for item in data.items:
-        lines.append(f"• {item['name']} × {item['qty']} — {item['price'] * item['qty']} ₽")
-    if data.comment:
-        lines.append(f"\n💬 Комментарий: {data.comment}")
-    if data.total > 0:
-        lines.append(f"\n💰 <b>Итого: {data.total} ₽</b>")
+        lines = [
+            "🛒 <b>Новый заказ!</b>",
+            f"📦 Режим: {mode_name}",
+            f"🕐 Время: {data.time}",
+        ]
+        if is_booking:
+            lines.append(f"👥 Гостей: {data.guests}")
+        if data.address:
+            lines.append(f"🏠 Адрес: {data.address}")
+        lines.append("")
+        lines.append("<b>Состав заказа:</b>")
+        for item in data.items:
+            lines.append(f"• {item['name']} × {item['qty']} — {item['price'] * item['qty']} ₽")
+        if data.comment:
+            lines.append(f"\n💬 Комментарий: {data.comment}")
+        if data.total > 0:
+            lines.append(f"\n💰 <b>Итого: {data.total} ₽</b>")
 
-    text = "\n".join(lines)
+        text = "\n".join(lines)
 
     try:
         async with httpx.AsyncClient(timeout=10) as client:
