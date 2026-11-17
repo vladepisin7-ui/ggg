@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кальмар Рамён — лапша и азиатские напитки в Обнинске</title>
+<meta name="description" content="Кафе «Кальмар Рамён» в Обнинске: собери свой рамен, острая лапша Buldak, сырные рамены, токпокки и азиатские напитки.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0b12; --panel:#14141f; --card:#181826; --card2:#1d1d2c;
+  --pink:#ff2d78; --green:#38d36b; --gold:#ffd24d;
+  --text:#f4f2ee; --muted:#a9a6b8; --line:rgba(255,255,255,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Manrope',sans-serif; color:var(--text); background:var(--bg);
+  background-image:
+    radial-gradient(1200px 600px at 85% -10%, rgba(255,45,120,.10), transparent 60%),
+    radial-gradient(900px 500px at -10% 40%, rgba(56,211,107,.08), transparent 60%),
+    radial-gradient(700px 700px at 50% 110%, rgba(255,210,77,.06), transparent 60%);
+  min-height:100vh; overflow-x:hidden;
+}
+::selection{background:var(--pink); color:#fff}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--pink),var(--green)); border-radius:8px}
+h1,h2,h3,.btn,.badge-num,.chip,.price{font-family:'Unbounded',sans-serif}
+
+/* ===== ФОНОВЫЕ СИМВОЛЫ ○ △ □ ===== */
+.bg-shapes{position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden}
+.bg-shapes span{
+  position:absolute; font-family:'Unbounded',sans-serif; font-weight:800;
+  line-height:1; user-select:none; filter:blur(.4px);
+}
+
+.wrap{max-width:1200px; margin:0 auto; padding:0 20px}
+section{padding:70px 0}
+.sec-head{display:flex; align-items:center; gap:14px; margin-bottom:12px}
+.badge-num{
+  flex:0 0 auto; width:52px; height:52px; border-radius:50%;
+  background:var(--green); color:#0b2410; font-weight:800; font-size:14px;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 22px rgba(56,211,107,.45);
+}
+h2{font-size:clamp(24px,3.4vw,36px); font-weight:800; position:relative; padding-right:26px}
+h2::after{
+  content:"○"; position:absolute; right:0; top:2px; font-size:18px; color:var(--pink);
+}
+.sec-sub{color:var(--muted); margin-bottom:28px; max-width:720px}
+
+/* header */
+header{position:sticky; top:0; z-index:50; background:rgba(11,11,18,.85); backdrop-filter:blur(12px); border-bottom:1px solid var(--line)}
+.nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0; gap:16px}
+.logo{font-family:'Unbounded'; font-weight:800; font-size:18px; text-decoration:none; color:var(--text)}
+.logo b{color:var(--pink)}
+nav.menu{display:flex; gap:22px; flex-wrap:wrap}
+nav.menu a{color:var(--muted); text-decoration:none; font-weight:600; font-size:14px; transition:.2s}
+nav.menu a:hover{color:var(--pink)}
+.burger{display:none; background:none; border:1px solid var(--line); color:var(--text); font-size:20px; padding:6px 12px; border-radius:10px; cursor:pointer}
+
+/* hero */
+.hero{padding:90px 0 70px; position:relative}
+.kicker{display:inline-block; font-family:'Unbounded'; font-size:13px; letter-spacing:.14em; color:var(--pink); border:1px solid rgba(255,45,120,.4); padding:8px 16px; border-radius:999px; margin-bottom:22px}
+.hero h1{font-size:clamp(30px,5vw,54px); font-weight:800; line-height:1.15; margin-bottom:18px}
+.hero h1 em{font-style:normal; color:var(--green)}
+.hero .shapes{font-family:'Unbounded'; color:var(--gold); letter-spacing:.3em; margin-bottom:16px; opacity:.8}
+.hero p{color:var(--muted); font-size:17px; max-width:640px; margin-bottom:30px}
+.btn{
+  display:inline-flex; align-items:center; gap:10px; border:none; cursor:pointer;
+  background:var(--pink); color:#fff; font-weight:600; font-size:15px;
+  padding:14px 28px; border-radius:999px; text-decoration:none; transition:.25s;
+  box-shadow:0 6px 24px rgba(255,45,120,.35);
+}
+.btn:hover{background:var(--green); box-shadow:0 6px 24px rgba(56,211,107,.4); transform:translateY(-2px)}
+.btn.hero-cta{animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 6px 24px rgba(255,45,120,.35)}50%{box-shadow:0 6px 40px rgba(56,211,107,.6)}}
+
+/* плитки */
+.tiles{display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:20px; grid-auto-rows:minmax(380px, auto)}
+.tile{
+  background:linear-gradient(160deg, var(--card), var(--card2));
+  border:1px solid var(--line); border-radius:20px; padding:26px;
+  display:flex; flex-direction:column; position:relative;
+  transition:transform .25s, border-color .25s, box-shadow .25s;
+}
+.tile:hover{transform:translateY(-4px); border-color:rgba(255,45,120,.45); box-shadow:0 14px 40px rgba(255,45,120,.12)}
+.tile::after{
+  content:"○"; position:absolute; top:18px; right:20px; font-family:'Unbounded';
+  font-size:22px; color:var(--pink); opacity:.7;
+}
+.tile:nth-child(3n+2)::after{content:"△"; color:var(--green)}
+.tile:nth-child(3n)::after{content:"□"; color:var(--gold)}
+.tile h3{font-size:17px; font-weight:600; line-height:1.4; margin-bottom:10px; padding-right:40px}
+.tile-desc{color:var(--muted); font-size:14px; line-height:1.6; flex:1 1 auto}
+.tile-emoji{font-size:34px; margin-bottom:14px}
+.step-num{font-family:'Unbounded'; color:var(--gold); font-size:13px; letter-spacing:.12em; margin-bottom:10px}
+.tile-cta{margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:12px; padding-top:16px}
+.price{color:var(--gold); font-weight:800; font-size:18px; white-space:nowrap}
+.add-btn{padding:11px 20px; font-size:13px}
+.tiles-products{grid-auto-rows:minmax(340px, auto)}
+
+/* категории */
+.cat-block{margin-top:40px}
+.cat-title{font-family:'Unbounded'; font-size:20px; color:var(--gold); margin-bottom:6px; padding-bottom:10px; border-bottom:2px solid rgba(255,45,120,.35); display:inline-block}
+.cat-count{font-size:12px; color:var(--muted); margin-left:8px}
+.chips{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px}
+.chip{
+  color:var(--text); text-decoration:none; font-size:13px; padding:9px 16px;
+  border:1px solid var(--line); border-radius:999px; background:var(--panel); transition:.2s;
+}
+.chip:hover{border-color:var(--pink); color:var(--pink)}
+
+/* FAQ в строчку */
+.faq-row{display:grid; grid-template-columns:repeat(4, 1fr); gap:18px}
+details{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px; transition:border-color .2s}
+details:hover, details[open]{border-color:rgba(56,211,107,.5)}
+summary{cursor:pointer; font-weight:700; font-family:'Unbounded'; font-size:14px; line-height:1.45; list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"△ "; color:var(--green)}
+details[open] summary::before{content:"▽ "}
+details p{margin-top:12px; color:var(--muted); font-size:14px; line-height:1.6}
+
+/* контакты в строчку */
+.contacts-row{display:flex; flex-wrap:wrap; gap:14px; align-items:stretch}
+.capsule{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px 24px; min-width:200px; flex:1 1 200px}
+.capsule .cap-label{font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:6px}
+.capsule .cap-value{font-family:'Unbounded'; font-size:15px; font-weight:600}
+.capsule a{color:var(--text); text-decoration:none}
+.capsule a:hover{color:var(--pink)}
+.messengers{display:flex; gap:10px; flex:1 1 240px; align-items:center}
+.messengers .btn{padding:13px 20px; font-size:13px}
+
+/* форма */
+.form{max-width:640px; display:flex; flex-direction:column; gap:14px}
+.form input, .form textarea{
+  background:var(--panel); border:1px solid var(--line); border-radius:14px;
+  color:var(--text); padding:14px 18px; font-family:'Manrope'; font-size:15px; outline:none; transition:border-color .2s;
+}
+.form input:focus, .form textarea:focus{border-color:var(--pink)}
+.form-note{color:var(--muted); font-size:13px}
+.form-ok{color:var(--green); font-size:14px; display:none}
+
+footer{border-top:1px solid var(--line); padding:34px 0; color:var(--muted); font-size:14px}
+footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter-spacing:.4em}
+
+/* ===== корзина ===== */
+.cart-btn{
+  position:relative; background:transparent; border:1px solid rgba(255,45,120,.5);
+  color:var(--text); font-size:18px; padding:8px 14px; border-radius:12px; cursor:pointer; transition:.2s;
+}
+.cart-btn:hover{border-color:var(--green)}
+.cart-count{
+  position:absolute; top:-8px; right:-8px; background:var(--green); color:#06230d;
+  font-family:'Unbounded'; font-size:11px; font-weight:800; min-width:20px; height:20px;
+  border-radius:999px; display:none; align-items:center; justify-content:center; padding:0 5px;
+}
+.fab-cart{
+  position:fixed; right:18px; bottom:18px; width:56px; height:56px; z-index:60;
+  border-radius:50%; background:var(--green); color:#06230d; font-size:24px;
+  border:none; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,.45);
+  display:none; align-items:center; justify-content:center; transition:.2s;
+}
+.fab-cart:active{ transform:scale(.92); }
+.fab{
+  position:fixed; right:20px; bottom:22px; z-index:60; width:60px; height:60px;
+  border-radius:50%; border:none; background:var(--pink); color:#fff; font-size:24px;
+  cursor:pointer; box-shadow:0 10px 30px rgba(255,45,120,.45); display:none; transition:.2s;
+}
+.fab:hover{background:var(--green); transform:translateY(-3px)}
+.cart-overlay{position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:70; opacity:0; pointer-events:none; transition:.25s}
+.cart-drawer{
+  position:fixed; top:0; right:0; height:100%; width:min(420px, 100%); z-index:80;
+  background:var(--panel); border-left:1px solid var(--line); transform:translateX(105%); transition:.3s;
+  display:flex; flex-direction:column;
+}
+.cart-drawer.open, .cart-overlay.open{transform:none; opacity:1; pointer-events:auto}
+.cart-drawer.open{transform:translateX(0)}
+.cart-head{display:flex; align-items:center; justify-content:space-between; padding:20px; border-bottom:1px solid var(--line)}
+.cart-head h3{font-size:16px}
+.cart-close{background:none; border:1px solid var(--line); color:var(--text); border-radius:10px; padding:6px 12px; cursor:pointer; font-size:16px}
+.cart-items{flex:1; overflow-y:auto; padding:16px 20px; display:flex; flex-direction:column; gap:14px}
+.cart-empty{color:var(--muted); text-align:center; padding:40px 10px; font-size:14px}
+.cart-item{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px}
+.cart-item .ci-name{font-weight:700; font-size:13px; line-height:1.4; margin-bottom:8px; padding-right:24px; position:relative}
+.ci-del{position:absolute; right:0; top:0; background:none; border:none; color:var(--muted); cursor:pointer; font-size:15px}
+.ci-del:hover{color:var(--pink)}
+.ci-row{display:flex; align-items:center; justify-content:space-between; gap:10px}
+.qty{display:flex; align-items:center; gap:10px}
+.qty button{width:28px; height:28px; border-radius:8px; border:1px solid var(--line); background:var(--card2); color:var(--text); cursor:pointer; font-size:15px}
+.qty button:hover{border-color:var(--green); color:var(--green)}
+.qty span{font-family:'Unbounded'; min-width:22px; text-align:center; font-size:14px}
+.ci-sum{color:var(--gold); font-family:'Unbounded'; font-size:14px; font-weight:800}
+.cart-foot{padding:18px 20px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:12px}
+.cart-total{display:flex; justify-content:space-between; align-items:baseline}
+.cart-total b{font-family:'Unbounded'; color:var(--gold); font-size:20px}
+.cart-actions{display:flex; gap:10px}
+.cart-actions .btn{flex:1; justify-content:center; padding:12px; font-size:13px}
+.btn.ghost{background:transparent; border:1px solid var(--line); box-shadow:none}
+.btn.ghost:hover{border-color:var(--pink); color:var(--pink); background:transparent; transform:none}
+
+
+/* ===== ПАНЕЛЬ КОРЗИНЫ: РЕЖИМЫ, БРОНЬ, ВРЕМЯ ===== */
+.cart-clear-link{background:none;border:none;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:12px;padding:0;margin-top:4px}
+.cart-clear-link:hover{color:var(--pink)}
+.mode-tabs{display:flex;gap:8px}
+.mode-tabs button{flex:1;padding:10px 6px;border-radius:12px;border:1px solid var(--line);background:var(--card2);color:var(--muted);cursor:pointer;font-family:'Unbounded';font-size:9.5px;line-height:1.3}
+.mode-tabs button.on{background:var(--pink);border-color:var(--pink);color:#fff;box-shadow:0 0 14px rgba(255,45,110,.35)}
+.opt-note{font-size:12px;color:var(--muted);line-height:1.4}
+.opt-block{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.opt-label{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.opt-block input,.opt-block select{background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:10px;padding:10px 12px;font-size:14px;width:100%;font-family:'Manrope'}
+.opt-block input:focus,.opt-block select:focus{outline:none;border-color:var(--green)}
+.opt-block select{appearance:auto}
+.opt-hint{font-size:11.5px;color:var(--muted)}
+.guests-row{display:flex;align-items:center;justify-content:space-between}
+.guests-row>span{font-family:'Unbounded';font-size:18px;color:var(--gold)}
+.order-btn{width:100%;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;font-size:14px}
+.order-btn b{font-family:'Unbounded';color:#fff;font-size:15px}
+.cart-afterword{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.4}
+
+.toast{
+  position:fixed; bottom:100px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:var(--card2); border:1px solid rgba(56,211,107,.6); color:var(--text);
+  padding:12px 22px; border-radius:999px; font-size:14px; z-index:90; opacity:0;
+  pointer-events:none; transition:.3s; white-space:nowrap; max-width:90vw; overflow:hidden; text-overflow:ellipsis;
+}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+
+@media(max-width:900px){
+  .faq-row{grid-template-columns:repeat(2, 1fr)}
+  .tiles{grid-template-columns:repeat(auto-fill, minmax(300px, 1fr))}
+}
+@media(max-width:640px){
+  .burger{display:block}
+  nav.menu{display:none; position:absolute; top:100%; left:0; right:0; background:var(--panel); flex-direction:column; padding:18px 20px; gap:14px; border-bottom:1px solid var(--line)}
+  nav.menu.open{display:flex}
+  .tiles{grid-template-columns:1fr}
+  .tiles .tile{aspect-ratio:auto; min-height:280px}
+  .faq-row{grid-template-columns:1fr}
+  .hero{padding:60px 0 50px}
+  section{padding:50px 0}
+  .bg-shapes span{font-size:70px !important}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-shapes" aria-hidden="true">
+    <span style="left:-2%;top:39%;font-size:93px;opacity:0.077;color:var(--pink);transform:rotate(3deg)">○</span>
+    <span style="left:4%;top:84%;font-size:159px;opacity:0.074;color:var(--green);transform:rotate(0deg)">△</span>
+    <span style="left:76%;top:37%;font-size:143px;opacity:0.067;color:var(--gold);transform:rotate(-7deg)">□</span>
+    <span style="left:25%;top:22%;font-size:95px;opacity:0.058;color:var(--pink);transform:rotate(27deg)">○</span>
+    <span style="left:73%;top:59%;font-size:127px;opacity:0.047;color:var(--green);transform:rotate(10deg)">△</span>
+    <span style="left:1%;top:61%;font-size:180px;opacity:0.041;color:var(--gold);transform:rotate(20deg)">□</span>
+    <span style="left:0%;top:-2%;font-size:159px;opacity:0.069;color:var(--pink);transform:rotate(-5deg)">○</span>
+    <span style="left:47%;top:2%;font-size:132px;opacity:0.076;color:var(--green);transform:rotate(7deg)">△</span>
+    <span style="left:28%;top:36%;font-size:128px;opacity:0.052;color:var(--gold);transform:rotate(4deg)">□</span>
+    <span style="left:22%;top:-2%;font-size:101px;opacity:0.079;color:var(--pink);transform:rotate(30deg)">○</span>
+    <span style="left:74%;top:0%;font-size:149px;opacity:0.072;color:var(--green);transform:rotate(26deg)">△</span>
+    <span style="left:29%;top:58%;font-size:139px;opacity:0.078;color:var(--gold);transform:rotate(14deg)">□</span>
+    <span style="left:73%;top:24%;font-size:92px;opacity:0.085;color:var(--pink);transform:rotate(-13deg)">○</span>
+    <span style="left:50%;top:23%;font-size:137px;opacity:0.073;color:var(--green);transform:rotate(-19deg)">△</span>
+    <span style="left:21%;top:76%;font-size:162px;opacity:0.041;color:var(--gold);transform:rotate(-13deg)">□</span>
+    <span style="left:0%;top:18%;font-size:155px;opacity:0.087;color:var(--pink);transform:rotate(-15deg)">○</span>
+    <span style="left:51%;top:41%;font-size:85px;opacity:0.072;color:var(--green);transform:rotate(29deg)">△</span>
+    <span style="left:53%;top:62%;font-size:99px;opacity:0.054;color:var(--gold);transform:rotate(-11deg)">□</span>
+</div>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#">◆ Кальмар <b>Рамён</b></a>
+    <nav class="menu" id="menu">
+      <a href="#advantages">Почему у нас удобно</a>
+      <a href="#catalog">Каталог</a>
+      <a href="#how">Как собрать свой рамен</a>
+      <a href="#order">Оформить заказ</a>
+      <a href="#faq">Частые вопросы</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <div style="display:flex; gap:10px; align-items:center">
+      <button class="cart-btn" id="cartBtn" aria-label="Корзина">🛒<span class="cart-count" id="cartCount">0</span></button>
+      <button class="burger" id="burger" aria-label="Меню">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <span class="kicker">Кальмар Рамён · Обнинск</span>
+    <h1>Рамен и азиатская лапша <em>в Обнинске</em></h1>
+    <p>Кафе «Кальмар Рамён» — место, где вы сами собираете лапшу: выбираете основу, добавляете любимые топпинги и получаете свою порцию. А ещё у нас азиатские напитки и лапша на вынос.</p>
+    <a class="btn hero-cta" href="#catalog">Собрать заказ</a>
+  </div>
+</section>
+
+<section id="advantages">
+  <div class="wrap">
+    <div class="sec-head"><span class="badge-num">456</span><h2>Почему у нас удобно</h2></div>
+    <div class="tiles">
+      <article class="tile">
+        <span class="step-num">01</span>
+        <h3>Своя сборка рамена</h3>
+        <p class="tile-desc">Выбираете основу и топпинги — получаете порцию под свой вкус, от сырной до экстремально острой.</p>
+      </article>
+      <article class="tile">
+        <span class="step-num">02</span>
+        <h3>Азиатские напитки</h3>
+        <p class="tile-desc">Молочные, сывороточные и десертные напитки, газировка, соки, чай и кофе: банан, дыня Хами, манго, личи, фисташка и другие.</p>
+      </article>
+      <article class="tile">
+        <span class="step-num">03</span>
+        <h3>Лапша на вынос</h3>
+        <p class="tile-desc">Знакомые вкусы Buldak и сырные рамены — можно забрать с собой и приготовить дома.</p>
+      </article>
+      <article class="tile">
+        <span class="step-num">04</span>
+        <h3>Мы в Обнинске</h3>
+        <p class="tile-desc">Кафе работает в Обнинске — заходите или свяжитесь с нами по телефону и в мессенджерах.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="catalog">
+  <div class="wrap">
+    <div class="sec-head"><span class="badge-num">456</span><h2>Каталог: лапша и напитки</h2></div>
+    <p class="sec-sub">47 позиций в 11 категориях — выбирайте своё. Все цены указаны в каталоге.</p>
+    <div class="chips">
+      <a class="chip" href="#cat1">🥛 Молочные напитки Woerwang · 3</a>
+      <a class="chip" href="#cat2">🧋 Десертные напитки Yujianni · 5</a>
+      <a class="chip" href="#cat3">🧃 Сывороточные напитки Yanwee · 4</a>
+      <a class="chip" href="#cat4">🍜 Лапша и рамены · 11</a>
+      <a class="chip" href="#cat5">🥤 Газированные напитки · 7</a>
+      <a class="chip" href="#cat6">🍢 Токпокки (клецки) · 6</a>
+      <a class="chip" href="#cat7">🧃 Соки Vinut · 3</a>
+      <a class="chip" href="#cat8">🥒 Топпинги · 3</a>
+      <a class="chip" href="#cat9">🥥 Растительные напитки · 2</a>
+      <a class="chip" href="#cat10">🍵 Холодный чай · 2</a>
+      <a class="chip" href="#cat11">☕ Кофейные напитки · 1</a>
+    </div>
+    <div class="cat-block" id="cat1">
+  <h3 class="cat-title">Молочные напитки Woerwang <span class="cat-count">3 поз.</span></h3>
+  <div class="tiles tiles-products">
+<article class="tile prod-card">
+  <div class="tile-emoji">🥛</div>
+  <h3 class="tile-title">Молочный напиток безалкогольный Woerwang со вкусом банана, 500 мл</h3>
+  <p class="tile-desc">Безалкогольный негазированный напиток с приятным сливочно-фруктовым вкусом и мягкой текстурой.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Молочный напиток безалкогольный Woerwang со вкусом банана, 500 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🥛</div>
+  <h3 class="tile-title">Молочный напиток безалкогольный Woerwang со вкусом снежной дыни Хами, 500 мл</h3>
+  <p class="tile-desc">Безалкогольный негазированный напиток с нежной сливочной текстурой и выразительным дынным вкусом.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Молочный напиток безалкогольный Woerwang со вкусом снежной дыни Хами, 500 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🥛</div>
+  <h3 class="tile-title">Молочный напиток безалкогольный Woerwang со вкусом клубники, 500 мл</h3>
+  <p class="tile-desc">Безалкогольный негазированный напиток со сливочной текстурой и приятным ягодным ароматом.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Молочный напиток безалкогольный Woerwang со вкусом клубники, 500 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+  </div>
+</div>
+<div class="cat-block" id="cat2">
+  <h3 class="cat-title">Десертные напитки Yujianni <span class="cat-count">5 поз.</span></h3>
+  <div class="tiles tiles-products">
+<article class="tile prod-card">
+  <div class="tile-emoji">🧋</div>
+  <h3 class="tile-title">Напиток безалкогольный негазированный Yujianni со вкусом вишни, 520 г</h3>
+  <p class="tile-desc">Оригинальный азиатский десертный напиток с добавлением сухого цельного молока, мякоти кокоса и кусочков кокосового желе.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток безалкогольный негазированный Yujianni со вкусом вишни, 520 г" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🧋</div>
+  <h3 class="tile-title">Напиток безалкогольный негазированный Yujianni со вкусом клубники, 520 г</h3>
+  <p class="tile-desc">Оригинальный азиатский десертный напиток с добавлением сухого цельного молока, кусочков клубники, мякоти кокоса и кокосового желе.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток безалкогольный негазированный Yujianni со вкусом клубники, 520 г" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🧋</div>
+  <h3 class="tile-title">Напиток безалкогольный негазированный Yujianni со вкусом манго, 520 г</h3>
+  <p class="tile-desc">Яркий азиатский десертный напиток с добавлением сухого цельного молока, пюре манго, мякоти кокоса и кокосового желе.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток безалкогольный негазированный Yujianni со вкусом манго, 520 г" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🧋</div>
+  <h3 class="tile-title">Напиток безалкогольный негазированный Yujianni со вкусом личи, 520 г</h3>
+  <p class="tile-desc">Освежающий азиатский десертный напиток с добавлением сухого цельного молока, сока личи, мякоти кокоса и кокосового желе.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток безалкогольный негазированный Yujianni со вкусом личи, 520 г" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🧋</div>
+  <h3 class="tile-title">Напиток безалкогольный негазированный Yujianni со вкусом апельсина, 520 г</h3>
+  <p class="tile-desc">Оригинальный азиатский десертный напиток с добавлением сухого цельного молока, пюре апельсина, мякоти кокоса и кокосового желе.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток безалкогольный негазированный Yujianni со вкусом апельсина, 520 г" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+  </div>
+</div>
+<div class="cat-block" id="cat3">
+  <h3 class="cat-title">Сывороточные напитки Yanwee <span class="cat-count">4 поз.</span></h3>
+  <div class="tiles tiles-products">
+<article class="tile prod-card">
+  <div class="tile-emoji">🧃</div>
+  <h3 class="tile-title">Напиток сывороточный негазированный Yanwee со вкусом йогурта, 220 г</h3>
+  <p class="tile-desc">Мягкий, слегка кисленький сливочно-йогуртовый вкус. Лёгкий, отлично утоляет жажду и дарит освежающее чувство.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток сывороточный негазированный Yanwee со вкусом йогурта, 220 г" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🧃</div>
+  <h3 class="tile-title">Напиток сывороточный негазированный Yanwee со вкусом шоколада, 220 г</h3>
+  <p class="tile-desc">Мягкий сливочно-десертный вкус и нежные какао-нотки. Отлично подходит для любителей шоколадных напитков.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток сывороточный негазированный Yanwee со вкусом шоколада, 220 г" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🧃</div>
+  <h3 class="tile-title">Напиток сывороточный негазированный Yanwee со вкусом арбуза, 220 г</h3>
+  <p class="tile-desc">Лёгкая сливочная текстура и освежающий вкус спелого арбуза. Отлично утоляет жажду и дарит яркое летнее настроение.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток сывороточный негазированный Yanwee со вкусом арбуза, 220 г" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🧃</div>
+  <h3 class="tile-title">Напиток сывороточный негазированный Yanwee со вкусом фисташки, 220 г</h3>
+  <p class="tile-desc">Мягкая сливочная текстура и оригинальные ореховые нотки. Понравится любителям необычных десертных вкусов.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток сывороточный негазированный Yanwee со вкусом фисташки, 220 г" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+  </div>
+</div>
+<div class="cat-block" id="cat4">
+  <h3 class="cat-title">Лапша и рамены <span class="cat-count">11 поз.</span></h3>
+  <div class="tiles tiles-products">
+<article class="tile prod-card">
+  <div class="tile-emoji">🍜</div>
+  <h3 class="tile-title">Buldak со вкусом курицы, лайма и перца</h3>
+  <p class="tile-desc">Острая корейская лапша для любителей ярких и жгучих вкусов. Насыщенная куриная основа дополняется дерзким освежающим цитрусом и пикантным остро-кислым соусом со специями.</p>
+  <div class="tile-cta">
+    <span class="price">270 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Buldak со вкусом курицы, лайма и перца" data-price="270 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍜</div>
+  <h3 class="tile-title">Buldak курица 4 сыра</h3>
+  <p class="tile-desc">Знаменитая острая корейская лапша с нежным кремовым акцентом. Насыщенный остро-куриный соус гармонично сбалансирован густым сочетанием четырёх видов сыра.</p>
+  <div class="tile-cta">
+    <span class="price">290 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Buldak курица 4 сыра" data-price="290 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍜</div>
+  <h3 class="tile-title">Buldak Spicy Ramen Cream Carbonara</h3>
+  <p class="tile-desc">Нежная версия легендарной острой корейской лапши с мягким сливочным вкусом. Куриная основа дополняется густым соусом со сливками, сыром и пикантными специями.</p>
+  <div class="tile-cta">
+    <span class="price">270 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Buldak Spicy Ramen Cream Carbonara" data-price="270 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍜</div>
+  <h3 class="tile-title">Buldak Spicy Ramen Stew Type</h3>
+  <p class="tile-desc">Сытный вариант знаменитой корейской лапши в формате насыщенного острого супа. Фирменный жгучий куриный соус превращается в густой, пряный бульон с глубоким вкусом.</p>
+  <div class="tile-cta">
+    <span class="price">290 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Buldak Spicy Ramen Stew Type" data-price="290 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍜</div>
+  <h3 class="tile-title">Buldak Spicy x3</h3>
+  <p class="tile-desc">Экстремально острая корейская лапша для самых отчаянных любителей жгучих вкусов. Утроенная порция фирменного куриного соуса чили даёт бескомпромиссную остроту.</p>
+  <div class="tile-cta">
+    <span class="price">270 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Buldak Spicy x3" data-price="270 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍜</div>
+  <h3 class="tile-title">Сырный рамен с сыром чеддер и маскарпоне</h3>
+  <p class="tile-desc">Изысканный вариант азиатского рамена с нежным сливочно-сырным вкусом. Насыщенный бульон дополнен пикантным чеддером и мягким маскарпоне.</p>
+  <div class="tile-cta">
+    <span class="price">240 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Сырный рамен с сыром чеддер и маскарпоне" data-price="240 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍜</div>
+  <h3 class="tile-title">Real Cheese Ramen</h3>
+  <p class="tile-desc">Знаменитый корейский рамен с насыщенным сырным вкусом. Главная фишка — настоящий жидкий сырный соус в комплекте, который создаёт густую, тягучую и сливочную текстуру.</p>
+  <div class="tile-cta">
+    <span class="price">290 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Real Cheese Ramen" data-price="290 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍜</div>
+  <h3 class="tile-title">Buldak Карбонара Острый</h3>
+  <p class="tile-desc">Один из самых популярных хитов линейки: легендарная острая корейская лапша с мягким сливочно-сырным вкусом и фирменным жгучим соусом чили.</p>
+  <div class="tile-cta">
+    <span class="price">290 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Buldak Карбонара Острый" data-price="290 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍜</div>
+  <h3 class="tile-title">Сырный Рамен Острый</h3>
+  <p class="tile-desc">Сбалансированное сочетание жгучих азиатских специй и нежного сливочного вкуса. Насыщенный острый бульон дополнен тягучим сырным акцентом.</p>
+  <div class="tile-cta">
+    <span class="price">300 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Сырный Рамен Острый" data-price="300 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍜</div>
+  <h3 class="tile-title">Сырный Рамен с Сыром Чеддер</h3>
+  <p class="tile-desc">Насыщенный азиатский рамен с глубоким и понятным сырным вкусом. Выразительный, чуть пикантный чеддер придаёт бульону аппетитный золотистый оттенок.</p>
+  <div class="tile-cta">
+    <span class="price">300 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Сырный Рамен с Сыром Чеддер" data-price="300 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍜</div>
+  <h3 class="tile-title">Паста с соусом со сливочным вкусом и грибами</h3>
+  <p class="tile-desc">Классическое сытное блюдо: аппетитная паста с нежными грибами в густом соусе с мягким сливочным вкусом. Бархатистая заправка придаёт глубокий аромат.</p>
+  <div class="tile-cta">
+    <span class="price">290 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Паста с соусом со сливочным вкусом и грибами" data-price="290 ₽">В корзину</button>
+  </div>
+</article>
+  </div>
+</div>
+<div class="cat-block" id="cat5">
+  <h3 class="cat-title">Газированные напитки <span class="cat-count">7 поз.</span></h3>
+  <div class="tiles tiles-products">
+<article class="tile prod-card">
+  <div class="tile-emoji">🥤</div>
+  <h3 class="tile-title">Напиток газированный Baskin Robbins Milky Soda Peach Yogurt, 350 мл</h3>
+  <p class="tile-desc">Оригинальное сочетание нежного сливочно-йогуртового вкуса и сочных персиковых ноток. Мягкая текстура, приятный аромат и умеренная сладость.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток газированный Baskin Robbins Milky Soda Peach Yogurt, 350 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🥤</div>
+  <h3 class="tile-title">Напиток газированный Baskin Robbins Milky Soda Cotton Candy Wonderland, 350 мл</h3>
+  <p class="tile-desc">Волшебный сливочный вкус с яркими нотками сахарной ваты, вдохновлённый знаменитым мороженым.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток газированный Baskin Robbins Milky Soda Cotton Candy Wonderland, 350 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🥤</div>
+  <h3 class="tile-title">Напиток газированный Baskin Robbins Milky Soda Strawberry & Vanilla, 350 мл</h3>
+  <p class="tile-desc">Вдохновлён классическим десертным вкусом клубничного мороженого с ванилью.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток газированный Baskin Robbins Milky Soda Strawberry & Vanilla, 350 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🥤</div>
+  <h3 class="tile-title">Напиток газированный Baskin Robbins Milky Soda Mango Tango, 350 мл</h3>
+  <p class="tile-desc">Сочетает в себе сочный тропический вкус спелого манго и мягкие сливочные нотки, вдохновлённые фирменным десертом.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток газированный Baskin Robbins Milky Soda Mango Tango, 350 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🥤</div>
+  <h3 class="tile-title">Напиток газированный OKF Post Lacto Яблоко Корица без сахара, 350 мл</h3>
+  <p class="tile-desc">Гармоничный вкус сочного яблока и пряные нотки корицы. Формула без сахара содержит лактобактерии — лёгкий и полезный освежающий выбор.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток газированный OKF Post Lacto Яблоко Корица без сахара, 350 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🥤</div>
+  <h3 class="tile-title">Напиток газированный OKF Post Lacto Вишня Ваниль без сахара, 350 мл</h3>
+  <p class="tile-desc">Насыщенный вкус сочной вишни и нежные ванильные нотки. Без сахара, с лактобактериями.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток газированный OKF Post Lacto Вишня Ваниль без сахара, 350 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🥤</div>
+  <h3 class="tile-title">Напиток газированный OKF Post Lacto Берри Бласт без сахара, 350 мл</h3>
+  <p class="tile-desc">Яркий и насыщенный вкус микса спелых ягод. Без сахара, с лактобактериями.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток газированный OKF Post Lacto Берри Бласт без сахара, 350 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+  </div>
+</div>
+<div class="cat-block" id="cat6">
+  <h3 class="cat-title">Токпокки (клецки) <span class="cat-count">6 поз.</span></h3>
+  <div class="tiles tiles-products">
+<article class="tile prod-card">
+  <div class="tile-emoji">🍢</div>
+  <h3 class="tile-title">Рисовые клецки (токпокки) Карбонара</h3>
+  <p class="tile-desc">Популярный корейский стритфуд: упругие рисовые клецки тток в нежном сливочно-сырном соусе с лёгкой пикантной ноткой.</p>
+  <div class="tile-cta">
+    <span class="price">315 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Рисовые клецки (токпокки) Карбонара" data-price="315 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍢</div>
+  <h3 class="tile-title">Рисовые клецки (токпокки) с остро-сладким соусом</h3>
+  <p class="tile-desc">Классика корейского стритфуда: упругие рисовые клецки тток в традиционном соусе на основе пасты кочхуджан — согревающая острота и карамельная сладость.</p>
+  <div class="tile-cta">
+    <span class="price">315 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Рисовые клецки (токпокки) с остро-сладким соусом" data-price="315 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍢</div>
+  <h3 class="tile-title">Рисовые клецки (токпокки) с соусом, вкус сыра (большая порция)</h3>
+  <p class="tile-desc">Популярный корейский стритфуд: плотные упругие рисовые клецки тток в густом насыщенном соусе с мягким сливочно-сырным вкусом.</p>
+  <div class="tile-cta">
+    <span class="price">474 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Рисовые клецки (токпокки) с соусом, вкус сыра (большая порция)" data-price="474 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍢</div>
+  <h3 class="tile-title">Рисовые клецки (токпокки) с остро-сладким соусом (большая порция)</h3>
+  <p class="tile-desc">Аутентичный корейский стритфуд: плотные упругие рисовые клецки тток в густом пряном соусе — пикантная острота красного перца и карамельная сладость.</p>
+  <div class="tile-cta">
+    <span class="price">474 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Рисовые клецки (токпокки) с остро-сладким соусом (большая порция)" data-price="474 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍢</div>
+  <h3 class="tile-title">Рисовые клецки (токпокки) с соусом Карбонара (большая порция)</h3>
+  <p class="tile-desc">Нежное блюдо корейской кухни: традиционные упругие рисовые клецки тток в густом соусе со сливочно-сырным вкусом и пряными специями.</p>
+  <div class="tile-cta">
+    <span class="price">474 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Рисовые клецки (токпокки) с соусом Карбонара (большая порция)" data-price="474 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍢</div>
+  <h3 class="tile-title">Рисовые клецки (токпокки) со сливочно-луковым соусом</h3>
+  <p class="tile-desc">Оригинальное прочтение любимого корейского стритфуда: тягучие упругие клецки тток в густом соусе с мягким сливочным вкусом и ароматом зелёного лука.</p>
+  <div class="tile-cta">
+    <span class="price">315 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Рисовые клецки (токпокки) со сливочно-луковым соусом" data-price="315 ₽">В корзину</button>
+  </div>
+</article>
+  </div>
+</div>
+<div class="cat-block" id="cat7">
+  <h3 class="cat-title">Соки Vinut <span class="cat-count">3 поз.</span></h3>
+  <div class="tiles tiles-products">
+<article class="tile prod-card">
+  <div class="tile-emoji">🧃</div>
+  <h3 class="tile-title">Напиток сокосодержащий со вкусом банана Vinut, 330 мл</h3>
+  <p class="tile-desc">Богатый фруктовый вкус и насыщенный аромат тропического банана. Сок прямого отжима, прекрасно утоляет жажду.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток сокосодержащий со вкусом банана Vinut, 330 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🧃</div>
+  <h3 class="tile-title">Напиток сокосодержащий со вкусом маракуйи Vinut, 330 мл</h3>
+  <p class="tile-desc">Насыщенный фруктовый вкус с приятной кислинкой и освежающий тропический аромат. Из сока прямого отжима.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток сокосодержащий со вкусом маракуйи Vinut, 330 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🧃</div>
+  <h3 class="tile-title">Напиток сокосодержащий со вкусом мангустина Vinut, 330 мл</h3>
+  <p class="tile-desc">Изысканный сладко-кислый вкус экзотического фрукта и лёгкий освежающий аромат. Из сока прямого отжима.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток сокосодержащий со вкусом мангустина Vinut, 330 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+  </div>
+</div>
+<div class="cat-block" id="cat8">
+  <h3 class="cat-title">Топпинги <span class="cat-count">3 поз.</span></h3>
+  <div class="tiles tiles-products">
+<article class="tile prod-card">
+  <div class="tile-emoji">🥒</div>
+  <h3 class="tile-title">Кукуруза замороженная</h3>
+  <p class="tile-desc">Сладкая кукуруза — готовый к использованию ингредиент, сохраняющий сочность, цвет и натуральный вкус. Отлично подходит для азиатских супов и рамена.</p>
+  <div class="tile-cta">
+    <span class="price">50 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Кукуруза замороженная" data-price="50 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🥒</div>
+  <h3 class="tile-title">Крабовые палочки замороженные</h3>
+  <p class="tile-desc">Готовый полуфабрикат с нежной текстурой и насыщенным вкусом морепродуктов. Идеально подходят в качестве топпинга для рамена и супов.</p>
+  <div class="tile-cta">
+    <span class="price">45 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Крабовые палочки замороженные" data-price="45 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🥒</div>
+  <h3 class="tile-title">Огурцы по-корейски</h3>
+  <p class="tile-desc">Готовая пикантная закуска с пряным вкусом и хрустящей текстурой. Отлично дополняет азиатскую лапшу, рамен и рис.</p>
+  <div class="tile-cta">
+    <span class="price">85 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Огурцы по-корейски" data-price="85 ₽">В корзину</button>
+  </div>
+</article>
+  </div>
+</div>
+<div class="cat-block" id="cat9">
+  <h3 class="cat-title">Растительные напитки <span class="cat-count">2 поз.</span></h3>
+  <div class="tiles tiles-products">
+<article class="tile prod-card">
+  <div class="tile-emoji">🥥</div>
+  <h3 class="tile-title">Растительный протеиновый напиток Woerwang с кокосовым соком, 500 мл</h3>
+  <p class="tile-desc">Напиток с низким содержанием сахара и добавлением кокосового сока — безалкогольный негазированный напиток с лёгким тропическим вкусом.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Растительный протеиновый напиток Woerwang с кокосовым соком, 500 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🥥</div>
+  <h3 class="tile-title">Кокосовое молоко QingShang, 360 мл</h3>
+  <p class="tile-desc">Изготовлено с использованием свежего сока мякоти кокоса и обогащено пребиотиками.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Кокосовое молоко QingShang, 360 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+  </div>
+</div>
+<div class="cat-block" id="cat10">
+  <h3 class="cat-title">Холодный чай <span class="cat-count">2 поз.</span></h3>
+  <div class="tiles tiles-products">
+<article class="tile prod-card">
+  <div class="tile-emoji">🍵</div>
+  <h3 class="tile-title">Напиток «Чай π» Жасминовый чай с грейпфрутом, 500 мл</h3>
+  <p class="tile-desc">Сочетает в себе отборный зелёный чай, натуральный жасмин и сочные цитрусовые ноты грейпфрута.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток «Чай π» Жасминовый чай с грейпфрутом, 500 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+<article class="tile prod-card">
+  <div class="tile-emoji">🍵</div>
+  <h3 class="tile-title">Напиток «Чай π» Зелёный чай с помело, 500 мл</h3>
+  <p class="tile-desc">Отборный зелёный и чёрный чай с натуральным соком помело. Идеальный сладко-пряный вкус с лёгкой цитрусовой горчинкой.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток «Чай π» Зелёный чай с помело, 500 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+  </div>
+</div>
+<div class="cat-block" id="cat11">
+  <h3 class="cat-title">Кофейные напитки <span class="cat-count">1 поз.</span></h3>
+  <div class="tiles tiles-products">
+<article class="tile prod-card">
+  <div class="tile-emoji">☕</div>
+  <h3 class="tile-title">Напиток кокосовый латте «Нюма» QingShang, 360 мл</h3>
+  <p class="tile-desc">Сочетает в себе нежный сок мякоти кокоса прямого отжима и бодрящий экстракт кофе арабика холодного заваривания.</p>
+  <div class="tile-cta">
+    <span class="price">1 ₽</span>
+    <button class="btn add-btn" data-ax-add data-name="Напиток кокосовый латте «Нюма» QingShang, 360 мл" data-price="1 ₽">В корзину</button>
+  </div>
+</article>
+  </div>
+</div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head"><span class="badge-num">456</span><h2>Как собрать свой рамен</h2></div>
+    <div class="tiles">
+      <article class="tile">
+        <span class="step-num">01</span>
+        <h3>Выберите основу</h3>
+        <p class="tile-desc">Определитесь с бульоном и стилем лапши — от сырного до острого.</p>
+      </article>
+      <article class="tile">
+        <span class="step-num">02</span>
+        <h3>Добавьте топпинги</h3>
+        <p class="tile-desc">Дополните порцию любимыми ингредиентами по вкусу.</p>
+      </article>
+      <article class="tile">
+        <span class="step-num">03</span>
+        <h3>Заберите заказ</h3>
+        <p class="tile-desc">Свяжитесь с нами по телефону или в мессенджере, чтобы оформить заказ.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="order">
+  <div class="wrap">
+    <div class="sec-head"><span class="badge-num">456</span><h2>Оформить заказ</h2></div>
+    <p class="sec-sub">Оставьте имя и телефон — мы свяжемся, уточним состав заказа и подтвердим детали.</p>
+    <form class="form" id="orderForm">
+      <input type="text" name="name" placeholder="Имя" required>
+      <input type="tel" name="phone" placeholder="Телефон" required>
+      <textarea name="comment" rows="3" placeholder="Комментарий к заказу"></textarea>
+      <div><button class="btn" type="submit">Отправить заявку</button></div>
+      <div class="form-ok" id="formOk">Заявка отправлена! Мы свяжемся с вами в ближайшее время ✓</div>
+      <p class="form-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+    </form>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head"><span class="badge-num">456</span><h2>Частые вопросы</h2></div>
+    <div class="faq-row">
+      <details>
+        <summary>Можно ли собрать рамен самому?</summary>
+        <p>Да, в «Кальмар Рамён» вы выбираете основу и добавляете любимые топпинги — порция собирается под ваш вкус.</p>
+      </details>
+      <details>
+        <summary>Есть ли лапша на вынос?</summary>
+        <p>Да, в каталоге представлена лапша Buldak и сырные рамены, которые можно забрать с собой.</p>
+      </details>
+      <details>
+        <summary>Какие напитки есть?</summary>
+        <p>Молочные Woerwang, десертные Yujianni, сывороточные Yanwee, газировка, соки Vinut, холодный чай «Чай π» и кокосовый латте.</p>
+      </details>
+      <details>
+        <summary>Как сделать заказ?</summary>
+        <p>Позвоните по телефону, напишите в мессенджер, добавьте позиции в корзину или оставьте заявку через форму на сайте.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section id="contacts">
+  <div class="wrap">
+    <div class="sec-head"><span class="badge-num">456</span><h2>Контакты</h2></div>
+    <div class="contacts-row">
+      <div class="capsule"><div class="cap-label">Телефон</div><div class="cap-value"><a href="tel:+79533176065">+7 (953) 317-60-65</a></div></div>
+      <div class="capsule"><div class="cap-label">Email</div><div class="cap-value"><a href="mailto:info@example.ru">info@example.ru</a></div></div>
+      <div class="capsule"><div class="cap-label">Адрес</div><div class="cap-value">просп. Маркса, 41/2, Обнинск</div></div>
+      <div class="capsule"><div class="cap-label">Часы работы</div><div class="cap-value">Ежедневно, 10:00–23:00</div></div>
+      <div class="messengers">
+        <a class="btn" href="https://wa.me/79533176065" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn ghost" href="https://t.me/" target="_blank" rel="noopener">Telegram</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>◆ Кальмар Рамён</div>
+    <div>+7 (953) 317-60-65 · info@example.ru · Обнинск · Ежедневно</div>
+    <div class="shapes">○ △ □</div>
+    <div>2026 © Кальмар Рамён</div>
+  </div>
+</footer>
+
+<button class="fab" id="fab" aria-label="Открыть корзину">🛒</button>
+
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Корзина">
+  <div class="cart-head">
+    <div>
+      <h3>Корзина · <span id="drawerCount">0</span></h3>
+      <button class="cart-clear-link" id="cartClear">Очистить</button>
+    </div>
+    <button class="cart-close" id="cartClose" aria-label="Закрыть">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">Пока пусто — добавьте что-нибудь из каталога 🍜</div>
+  </div>
+  <div class="cart-foot">
+    <div class="mode-tabs" id="modeTabs">
+      <button type="button" data-mode="pickup">🛍 Самовывоз</button>
+      <button type="button" data-mode="delivery">🛵 Доставка</button>
+      <button type="button" data-mode="booking">🪑 Бронь столика</button>
+    </div>
+    <div class="opt-note" id="deliveryNote" style="display:none">Доставка по Обнинску — время и стоимость подтвердим при обработке заказа</div>
+    <div class="opt-block" id="addrWrap" style="display:none">
+      <label class="opt-label" for="addrInput">🏠 Адрес доставки</label>
+      <input id="addrInput" placeholder="Улица, дом, квартира — Обнинск">
+    </div>
+    <div class="opt-block" id="guestsWrap" style="display:none">
+      <div class="opt-label">👥 Количество гостей</div>
+      <div class="guests-row">
+        <span id="guestsVal">2</span>
+        <div class="qty">
+          <button type="button" id="gMinus">−</button>
+          <button type="button" id="gPlus">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="opt-block">
+      <label class="opt-label" for="timeSel" id="timeLabel">🕐 Время получения</label>
+      <select id="timeSel"></select>
+      <div class="opt-hint" id="timeHint"></div>
+    </div>
+    <div class="opt-block">
+      <label class="opt-label" for="commentInput">💬 Комментарий</label>
+      <input id="commentInput" placeholder="Пожелания к заказу">
+    </div>
+    <button class="btn order-btn" id="cartOrder">
+      <span id="orderLabel">Заказать</span><b id="cartTotal">0 ₽</b>
+    </button>
+    <div class="cart-afterword">После оформления состав скопируется — отправьте его нам в WhatsApp или Telegram</div>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<button class="fab-cart" id="fab" aria-label="Корзина">🛒<span class="cart-count" id="fabCount">0</span></button>
+<script>
+(function(){
+  // ---------- API — относительный путь (тот же домен) ----------
+  var API_URL = "";
+
+  // ---------- состояние ----------
+  var cart = {};
+  try { cart = JSON.parse(localStorage.getItem('kr_cart') || '{}'); } catch(e){ cart = {}; }
+  var mode = localStorage.getItem('kr_mode') || 'pickup';       // pickup | delivery | booking
+  var guests = parseInt(localStorage.getItem('kr_guests') || '2', 10);
+  if (guests < 1 || guests > 30 || isNaN(guests)) guests = 2;
+
+  var MIN_WAIT = { pickup: 60, delivery: 120, booking: 60 };    // минуты от момента заказа
+  var STEP = 15, OPEN_H = 10, CLOSE_H = 23;                     // часы работы кафе
+
+  var els = {
+    count: document.getElementById('cartCount'),
+    drawerCount: document.getElementById('drawerCount'),
+    items: document.getElementById('cartItems'),
+    total: document.getElementById('cartTotal'),
+    drawer: document.getElementById('cartDrawer'),
+    overlay: document.getElementById('cartOverlay'),
+    toast: document.getElementById('toast'),
+    timeSel: document.getElementById('timeSel'),
+    timeLabel: document.getElementById('timeLabel'),
+    timeHint: document.getElementById('timeHint'),
+    addrWrap: document.getElementById('addrWrap'),
+    addrInput: document.getElementById('addrInput'),
+    guestsWrap: document.getElementById('guestsWrap'),
+    guestsVal: document.getElementById('guestsVal'),
+    deliveryNote: document.getElementById('deliveryNote'),
+    orderBtn: document.getElementById('cartOrder'),
+    orderLabel: document.getElementById('orderLabel'),
+    fabCount: document.getElementById('fabCount'),
+    fab: document.getElementById('fab')
+  };
+
+  function parsePrice(p){ return parseInt(String(p).replace(/\D/g,''), 10) || 0; }
+  function unitOf(name){
+    var m = String(name).match(/,\s*(\d+\s*(?:мл|г|гр))\s*$/i);
+    return m ? m[1].replace(/\s+/g,' ') : '';
+  }
+  function save(){
+    localStorage.setItem('kr_cart', JSON.stringify(cart));
+    localStorage.setItem('kr_mode', mode);
+    localStorage.setItem('kr_guests', String(guests));
+  }
+
+  // ---------- слоты времени: шаг 15 минут, не раньше минимальной задержки ----------
+  function buildSlots(m){
+    var wait = MIN_WAIT[m] || 60;
+    var t = new Date(Date.now() + wait * 60000);
+    t.setSeconds(0, 0);
+    var rem = t.getMinutes() % STEP;
+    if (rem !== 0) t.setMinutes(t.getMinutes() + (STEP - rem));
+    var groups = [], dayNames = ['Сегодня','Завтра','Послезавтра'];
+    var maxDays = (m === 'booking') ? 3 : 1;   // самовывоз и доставка — только сегодня
+    for (var d = 0; d < maxDays; d++){
+      var dayStart = new Date(t); dayStart.setHours(OPEN_H, 0, 0, 0);
+      if (t < dayStart) t = new Date(dayStart);
+      var slots = [];
+      var guard = 0;
+      while (t.getHours() < CLOSE_H && guard < 60){
+        var hh = String(t.getHours()).padStart(2,'0');
+        var mm = String(t.getMinutes()).padStart(2,'0');
+        slots.push(hh + ':' + mm);
+        t = new Date(t.getTime() + STEP * 60000);
+        guard++;
+      }
+      if (slots.length) groups.push({ label: dayNames[d] || 'Позже', slots: slots });
+      t.setDate(t.getDate() + 1);
+      t.setHours(0, 0, 0, 0);
+    }
+    return groups;
+  }
+
+  function renderTime(keep){
+    var prev = keep ? els.timeSel.value : null;
+    var groups = buildSlots(mode);
+    var hint = { pickup: 'Самовывоз — не раньше, чем через час',
+                 delivery: 'Доставка — не раньше, чем через два часа',
+                 booking: 'Бронь столика — не раньше, чем через час' };
+    if (!groups.length){
+      els.timeSel.innerHTML = '<option value="">На сегодня слоты закончились</option>';
+      els.timeSel.disabled = true;
+      els.timeHint.textContent = hint[mode] + ' · кафе работает с 10:00 до 23:00';
+      return;
+    }
+    els.timeSel.disabled = false;
+    var html = '', first = null;
+    groups.forEach(function(g){
+      html += '<optgroup label="' + g.label + '">';
+      g.slots.forEach(function(s){
+        var v = g.label + ' ' + s;
+        if (!first) first = v;
+        html += '<option value="' + v + '">' + g.label + ', ' + s + '</option>';
+      });
+      html += '</optgroup>';
+    });
+    els.timeSel.innerHTML = html;
+    if (prev){
+      var still = Array.prototype.some.call(els.timeSel.options, function(o){ return o.value === prev; });
+      els.timeSel.value = still ? prev : first;
+    } else {
+      els.timeSel.value = first;
+    }
+    els.timeHint.textContent = hint[mode] + ' · кафе работает с 10:00 до 23:00';
+  }
+
+  // ---------- видимость блоков по режиму ----------
+  function applyMode(){
+    document.querySelectorAll('#modeTabs button').forEach(function(b){
+      b.classList.toggle('on', b.dataset.mode === mode);
+    });
+    els.addrWrap.style.display = (mode === 'delivery') ? 'flex' : 'none';
+    els.guestsWrap.style.display = (mode === 'booking') ? 'flex' : 'none';
+    els.deliveryNote.style.display = (mode === 'delivery') ? 'block' : 'none';
+    els.timeLabel.textContent = (mode === 'booking') ? '🕐 Время брони' : '🕐 Время получения';
+    els.orderLabel.textContent = (mode === 'booking') ? 'Забронировать' : 'Заказать';
+    renderTime(true);
+  }
+
+  // ---------- корзина ----------
+  function esc(s){ return String(s).replace(/"/g,'&quot;'); }
+
+  function renderCart(){
+    var names = Object.keys(cart), count = 0, total = 0, h = '';
+    names.forEach(function(n){
+      var q = cart[n].qty;
+      count += q;
+      total += q * cart[n].price;
+      var u = cart[n].unit ? ' <span class="ci-unit">' + cart[n].unit + '</span>' : '';
+      h += '<div class="cart-item">'
+         +   '<div class="ci-name">' + n + u + '</div>'
+         +   '<div class="ci-row"><span class="ci-sum">' + (cart[n].price * q) + ' ₽</span>'
+         +   '<div class="qty">'
+         +     '<button data-dec="' + esc(n) + '">−</button>'
+         +     '<span>' + q + '</span>'
+         +     '<button data-inc="' + esc(n) + '">+</button>'
+         +   '</div></div>'
+         + '</div>';
+    });
+    els.items.innerHTML = h || '<div class="cart-empty">' + (mode === 'booking'
+      ? 'Можно просто забронировать столик — без заказа 🪑'
+      : 'Пока пусто — добавьте что-нибудь из каталога 🍜') + '</div>';
+    els.count.textContent = count;
+    els.drawerCount.textContent = count;
+    els.fabCount.textContent = count;
+    els.count.style.display = count ? 'flex' : 'none';
+    els.fabCount.style.display = count ? 'flex' : 'none';
+    els.fab.classList.toggle('show', count > 0);
+    els.total.textContent = total + ' ₽';
+    save();
+  }
+
+  function addItem(name, price){
+    var unit = unitOf(name);
+    if (!cart[name]) cart[name] = { qty: 0, price: parsePrice(price), unit: unit };
+    cart[name].qty++;
+    cart[name].unit = cart[name].unit || unit;
+    renderCart();
+    if (els.toast){
+      els.toast.textContent = 'Добавлено: ' + name;
+      els.toast.classList.add('show');
+      setTimeout(function(){ els.toast.classList.remove('show'); }, 1800);
+    }
+  }
+
+  document.querySelectorAll('[data-ax-add]').forEach(function(b){
+    b.addEventListener('click', function(){
+      addItem(b.dataset.name, b.dataset.price);
+    });
+  });
+
+  els.items.addEventListener('click', function(e){
+    var inc = e.target.dataset.inc, dec = e.target.dataset.dec;
+    if (inc){ cart[inc].qty++; renderCart(); }
+    if (dec){
+      cart[dec].qty--;
+      if (cart[dec].qty <= 0) delete cart[dec];
+      renderCart();
+    }
+  });
+
+  // ---------- гости (только для брони) ----------
+  function setGuests(v){
+    guests = Math.min(30, Math.max(1, v));
+    els.guestsVal.textContent = guests;
+    save();
+  }
+  document.getElementById('gMinus').addEventListener('click', function(){ setGuests(guests - 1); });
+  document.getElementById('gPlus').addEventListener('click', function(){ setGuests(guests + 1); });
+
+  // ---------- вкладки режимов ----------
+  document.querySelectorAll('#modeTabs button').forEach(function(b){
+    b.addEventListener('click', function(){
+      mode = b.dataset.mode;
+      applyMode();
+      renderCart();
+    });
+  });
+
+  var addrInput = document.getElementById('addrInput');
+  var commentInput = document.getElementById('commentInput');
+  addrInput.addEventListener('input', function(){ localStorage.setItem('kr_addr', addrInput.value); });
+  commentInput.addEventListener('input', function(){ localStorage.setItem('kr_comment', commentInput.value); });
+  try { addrInput.value = localStorage.getItem('kr_addr') || ''; } catch(e){}
+  try { commentInput.value = localStorage.getItem('kr_comment') || ''; } catch(e){}
+
+  // ---------- открытие / закрытие ----------
+  function openCart(){
+    els.drawer.classList.add('open');
+    els.overlay.classList.add('open');
+    applyMode();
+    renderCart();
+  }
+  function closeCart(){
+    els.drawer.classList.remove('open');
+    els.overlay.classList.remove('open');
+  }
+  document.getElementById('cartBtn').addEventListener('click', openCart);
+  var fab = document.getElementById('fab');
+  if (fab) fab.addEventListener('click', openCart);
+  document.getElementById('cartClose').addEventListener('click', closeCart);
+  els.overlay.addEventListener('click', closeCart);
+
+  document.getElementById('cartClear').addEventListener('click', function(){
+    cart = {};
+    renderCart();
+    if (els.toast){
+      els.toast.textContent = 'Корзина очищена';
+      els.toast.classList.add('show');
+      setTimeout(function(){ els.toast.classList.remove('show'); }, 1500);
+    }
+  });
+
+  // ---------- оформление ----------
+  els.orderBtn.addEventListener('click', function(){
+    var names = Object.keys(cart);
+    var total = names.reduce(function(s, n){ return s + cart[n].price * cart[n].qty; }, 0);
+    var isBooking = mode === 'booking';
+    if (!isBooking && names.length === 0){
+      if (els.toast){
+        els.toast.textContent = 'Сначала добавьте что-нибудь из каталога';
+        els.toast.classList.add('show');
+        setTimeout(function(){ els.toast.classList.remove('show'); }, 1800);
+      }
+      return;
+    }
+    if (!els.timeSel.value){
+      if (els.toast){
+        els.toast.textContent = 'На сегодня слоты закончились — попробуйте позже';
+        els.toast.classList.add('show');
+        setTimeout(function(){ els.toast.classList.remove('show'); }, 2400);
+      }
+      return;
+    }
+
+    // Блокируем кнопку
+    els.orderBtn.disabled = true;
+    els.orderBtn.style.opacity = '0.6';
+
+    var modeName = { pickup: 'Самовывоз', delivery: 'Доставка', booking: 'Бронь столика' }[mode];
+    var orderData = {
+      mode: mode,
+      time: els.timeSel.value,
+      guests: guests,
+      address: addrInput.value.trim(),
+      items: names.map(function(n){
+        return { name: n, qty: cart[n].qty, price: cart[n].price };
+      }),
+      comment: commentInput.value.trim(),
+      total: total
+    };
+
+    fetch(API_URL + '/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData)
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(resp){
+      if (resp.ok){
+        if (els.toast){
+          els.toast.textContent = isBooking ? 'Бронь оформлена! ✓' : 'Заказ отправлен! Мы скоро свяжемся с вами ✓';
+          els.toast.classList.add('show');
+          setTimeout(function(){ els.toast.classList.remove('show'); }, 3000);
+        }
+        if (!isBooking){ cart = {}; renderCart(); }
+      } else {
+        if (els.toast){
+          els.toast.textContent = 'Ошибка отправки — попробуйте позже или напишите нам';
+          els.toast.classList.add('show');
+          setTimeout(function(){ els.toast.classList.remove('show'); }, 3000);
+        }
+      }
+    })
+    .catch(function(){
+      if (els.toast){
+        els.toast.textContent = 'Ошибка сети — попробуйте позже или напишите нам';
+        els.toast.classList.add('show');
+        setTimeout(function(){ els.toast.classList.remove('show'); }, 3000);
+      }
+    })
+    .finally(function(){
+      els.orderBtn.disabled = false;
+      els.orderBtn.style.opacity = '1';
+    });
+  });
+
+  // слоты времени обновляются раз в минуту, пока панель открыта
+  setInterval(function(){
+    if (els.drawer.classList.contains('open')) renderTime(true);
+  }, 60000);
+
+  // ---------- прочее ----------
+  document.getElementById('burger').addEventListener('click', function(){
+    document.getElementById('menu').classList.toggle('open');
+  });
+  document.querySelectorAll('#menu a').forEach(function(a){
+    a.addEventListener('click', function(){ document.getElementById('menu').classList.remove('open'); });
+  });
+
+  document.getElementById('orderForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = this.querySelector('[name="name"]').value.trim();
+    var phone = this.querySelector('[name="phone"]').value.trim();
+    var comment = this.querySelector('[name="comment"]').value.trim();
+
+    var formData = {
+      mode: 'contact',
+      time: new Date().toLocaleString('ru-RU'),
+      name: name,
+      phone: phone,
+      comment: comment,
+      items: [],
+      total: 0
+    };
+
+    fetch(API_URL + '/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(resp){
+      if (resp.ok){
+        document.getElementById('formOk').style.display = 'block';
+        document.getElementById('formOk').textContent = 'Заявка отправлена! Мы свяжемся с вами в ближайшее время ✓';
+        e.target.reset();
+      } else {
+        document.getElementById('formOk').style.display = 'block';
+        document.getElementById('formOk').textContent = 'Ошибка отправки — попробуйте написать нам в мессенджер';
+      }
+    })
+    .catch(function(){
+      document.getElementById('formOk').style.display = 'block';
+      document.getElementById('formOk').textContent = 'Ошибка сети — попробуйте написать нам в мессенджер';
+    });
+  });
+
+  els.guestsVal.textContent = guests;
+  applyMode();
+  renderCart();
+})();
+</script>
+</body>
+</html>
