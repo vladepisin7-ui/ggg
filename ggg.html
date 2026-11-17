@@ -80,22 +80,41 @@ nav.menu a:hover{color:var(--pink)}
 @keyframes pulse{0%,100%{box-shadow:0 6px 24px rgba(255,45,120,.35)}50%{box-shadow:0 6px 40px rgba(56,211,107,.6)}}
 
 /* плитки */
-.tiles{display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:20px; grid-auto-rows:minmax(380px, auto)}
+.tiles{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:16px; grid-auto-rows:minmax(200px, auto)}
 .tile{
   background:linear-gradient(160deg, var(--card), var(--card2));
-  border:1px solid var(--line); border-radius:20px; padding:26px;
+  border:1px solid var(--line); border-radius:16px; padding:18px 20px;
   display:flex; flex-direction:column; position:relative;
-  transition:transform .25s, border-color .25s, box-shadow .25s;
+  transition:transform .2s, border-color .2s, box-shadow .2s;
+  cursor:pointer;
 }
-.tile:hover{transform:translateY(-4px); border-color:rgba(255,45,120,.45); box-shadow:0 14px 40px rgba(255,45,120,.12)}
 .tile::after{
-  content:"○"; position:absolute; top:18px; right:20px; font-family:'Unbounded';
-  font-size:22px; color:var(--pink); opacity:.7;
+  content:"○"; position:absolute; top:14px; right:16px; font-family:'Unbounded';
+  font-size:16px; color:var(--pink); opacity:.5;
 }
 .tile:nth-child(3n+2)::after{content:"△"; color:var(--green)}
 .tile:nth-child(3n)::after{content:"□"; color:var(--gold)}
-.tile h3{font-size:17px; font-weight:600; line-height:1.4; margin-bottom:10px; padding-right:40px}
-.tile-desc{color:var(--muted); font-size:14px; line-height:1.6; flex:1 1 auto}
+.tile h3{font-size:15px; font-weight:600; line-height:1.4; margin-bottom:0; padding-right:30px}
+.tile-desc{color:var(--muted); font-size:13px; line-height:1.5; flex:1 1 auto; max-height:0; overflow:hidden; opacity:0; transition:max-height .3s ease, opacity .25s ease, margin .25s ease}
+.tile-desc.open{max-height:400px; opacity:1; margin-top:8px}
+.tile-desc-toggle{color:var(--pink); font-size:11px; cursor:pointer; margin-top:4px; user-select:none; transition:.2s; opacity:0}
+.tile-desc-toggle:hover{color:var(--green)}
+.tile-desc-toggle::before{content:"▼ "; font-size:9px}
+.tile.expanded .tile-desc-toggle{opacity:1}
+.tile.expanded{transform:scale(1.03); border-color:rgba(255,45,120,.5); box-shadow:0 10px 30px rgba(255,45,120,.12)}
+.prod-card .tile-desc{max-height:0; overflow:hidden; opacity:0}
+.prod-card .tile-desc.open{max-height:400px; opacity:1}
+.prod-card .tile-desc-toggle{opacity:0}
+.prod-card.expanded .tile-desc-toggle{opacity:1}
+.prod-card.expanded{transform:scale(1.03); border-color:rgba(255,45,120,.5); box-shadow:0 10px 30px rgba(255,45,120,.12)}
+.prod-card{cursor:pointer}
+.prod-card:hover{transform:none; border-color:var(--line); box-shadow:none}
+.prod-card .tile-emoji{font-size:24px; margin-bottom:8px}
+.prod-card h3{font-size:13px; font-weight:600; line-height:1.35; margin-bottom:4px; padding-right:30px}
+.prod-card .tile-desc{font-size:12px; line-height:1.45}
+.prod-card .tile-cta{margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:10px; padding-top:12px}
+.prod-card .price{color:var(--gold); font-weight:800; font-size:15px}
+.prod-card .add-btn{padding:9px 14px; font-size:12px}
 .tile-emoji{font-size:34px; margin-bottom:14px}
 .step-num{font-family:'Unbounded'; color:var(--gold); font-size:13px; letter-spacing:.12em; margin-bottom:10px}
 .tile-cta{margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:12px; padding-top:16px}
@@ -113,16 +132,6 @@ nav.menu a:hover{color:var(--pink)}
   border:1px solid var(--line); border-radius:999px; background:var(--panel); transition:.2s;
 }
 .chip:hover{border-color:var(--pink); color:var(--pink)}
-
-/* FAQ в строчку */
-.faq-row{display:grid; grid-template-columns:repeat(4, 1fr); gap:18px}
-details{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:20px; transition:border-color .2s}
-details:hover, details[open]{border-color:rgba(56,211,107,.5)}
-summary{cursor:pointer; font-weight:700; font-family:'Unbounded'; font-size:14px; line-height:1.45; list-style:none}
-summary::-webkit-details-marker{display:none}
-summary::before{content:"△ "; color:var(--green)}
-details[open] summary::before{content:"▽ "}
-details p{margin-top:12px; color:var(--muted); font-size:14px; line-height:1.6}
 
 /* контакты в строчку */
 .contacts-row{display:flex; flex-wrap:wrap; gap:14px; align-items:stretch}
@@ -231,7 +240,6 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
 .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
 
 @media(max-width:900px){
-  .faq-row{grid-template-columns:repeat(2, 1fr)}
   .tiles{grid-template-columns:repeat(auto-fill, minmax(300px, 1fr))}
 }
 @media(max-width:640px){
@@ -240,10 +248,6 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
   nav.menu.open{display:flex}
   .tiles{grid-template-columns:1fr}
   .tiles .tile{aspect-ratio:auto; min-height:280px}
-  .faq-row{grid-template-columns:1fr}
-  .hero{padding:60px 0 50px}
-  section{padding:50px 0}
-  .bg-shapes span{font-size:70px !important}
 }
 </style>
 </head>
@@ -277,7 +281,6 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
       <a href="#advantages">Почему у нас удобно</a>
       <a href="#catalog">Каталог</a>
       <a href="#how">Как собрать свой рамен</a>
-      <a href="#order">Оформить заказ</a>
       <a href="#faq">Частые вопросы</a>
       <a href="#contacts">Контакты</a>
     </nav>
@@ -847,41 +850,26 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
   </div>
 </section>
 
-<section id="order">
-  <div class="wrap">
-    <div class="sec-head"><span class="badge-num">456</span><h2>Оформить заказ</h2></div>
-    <p class="sec-sub">Оставьте имя и телефон — мы свяжемся, уточним состав заказа и подтвердим детали.</p>
-    <form class="form" id="orderForm">
-      <input type="text" name="name" placeholder="Имя" required>
-      <input type="tel" name="phone" placeholder="Телефон" required>
-      <textarea name="comment" rows="3" placeholder="Комментарий к заказу"></textarea>
-      <div><button class="btn" type="submit">Отправить заявку</button></div>
-      <div class="form-ok" id="formOk">Заявка отправлена! Мы свяжемся с вами в ближайшее время ✓</div>
-      <p class="form-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
-    </form>
-  </div>
-</section>
-
 <section id="faq">
   <div class="wrap">
     <div class="sec-head"><span class="badge-num">456</span><h2>Частые вопросы</h2></div>
-    <div class="faq-row">
-      <details>
-        <summary>Можно ли собрать рамен самому?</summary>
-        <p>Да, в «Кальмар Рамён» вы выбираете основу и добавляете любимые топпинги — порция собирается под ваш вкус.</p>
-      </details>
-      <details>
-        <summary>Есть ли лапша на вынос?</summary>
-        <p>Да, в каталоге представлена лапша Buldak и сырные рамены, которые можно забрать с собой.</p>
-      </details>
-      <details>
-        <summary>Какие напитки есть?</summary>
-        <p>Молочные Woerwang, десертные Yujianni, сывороточные Yanwee, газировка, соки Vinut, холодный чай «Чай π» и кокосовый латте.</p>
-      </details>
-      <details>
-        <summary>Как сделать заказ?</summary>
-        <p>Позвоните по телефону, напишите в мессенджер, добавьте позиции в корзину или оставьте заявку через форму на сайте.</p>
-      </details>
+    <div class="tiles">
+      <article class="tile">
+        <h3>Можно ли собрать рамен самому?</h3>
+        <p class="tile-desc">Да, в «Кальмар Рамён» вы выбираете основу и добавляете любимые топпинги — порция собирается под ваш вкус.</p>
+      </article>
+      <article class="tile">
+        <h3>Есть ли лапша на вынос?</h3>
+        <p class="tile-desc">Да, в каталоге представлена лапша Buldak и сырные рамены, которые можно забрать с собой.</p>
+      </article>
+      <article class="tile">
+        <h3>Какие напитки есть?</h3>
+        <p class="tile-desc">Молочные Woerwang, десертные Yujianni, сывороточные Yanwee, газировка, соки Vinut, холодный чай «Чай π» и кокосовый латте.</p>
+      </article>
+      <article class="tile">
+        <h3>Как сделать заказ?</h3>
+        <p class="tile-desc">Позвоните по телефону, напишите в мессенджер, добавьте позиции в корзину или оставьте заявку через форму на сайте.</p>
+      </article>
     </div>
   </div>
 </section>
@@ -1325,41 +1313,18 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
     a.addEventListener('click', function(){ document.getElementById('menu').classList.remove('open'); });
   });
 
-  document.getElementById('orderForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    var name = this.querySelector('[name="name"]').value.trim();
-    var phone = this.querySelector('[name="phone"]').value.trim();
-    var comment = this.querySelector('[name="comment"]').value.trim();
-
-    var formData = {
-      mode: 'contact',
-      time: new Date().toLocaleString('ru-RU'),
-      name: name,
-      phone: phone,
-      comment: comment,
-      items: [],
-      total: 0
-    };
-
-    fetch(API_URL + '/order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    })
-    .then(function(r){ return r.json(); })
-    .then(function(resp){
-      if (resp.ok){
-        document.getElementById('formOk').style.display = 'block';
-        document.getElementById('formOk').textContent = 'Заявка отправлена! Мы свяжемся с вами в ближайшее время ✓';
-        e.target.reset();
-      } else {
-        document.getElementById('formOk').style.display = 'block';
-        document.getElementById('formOk').textContent = 'Ошибка отправки — попробуйте написать нам в мессенджер';
-      }
-    })
-    .catch(function(){
-      document.getElementById('formOk').style.display = 'block';
-      document.getElementById('formOk').textContent = 'Ошибка сети — попробуйте написать нам в мессенджер';
+  // ---------- раскрытие описаний по клику на карточку ----------
+  document.querySelectorAll('.tile').forEach(function(tile){
+    var desc = tile.querySelector('.tile-desc');
+    if (!desc) return;
+    var toggle = document.createElement('div');
+    toggle.className = 'tile-desc-toggle';
+    toggle.textContent = 'Подробнее';
+    tile.appendChild(toggle);
+    tile.addEventListener('click', function(e){
+      desc.classList.toggle('open');
+      tile.classList.toggle('expanded');
+      toggle.textContent = desc.classList.contains('open') ? 'Скрыть' : 'Подробнее';
     });
   });
 
