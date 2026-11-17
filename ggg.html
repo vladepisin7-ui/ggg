@@ -122,6 +122,16 @@ nav.menu a:hover{color:var(--pink)}
 .add-btn{padding:11px 20px; font-size:13px}
 .tiles-products{grid-auto-rows:minmax(340px, auto)}
 
+/* кнопка "наверх к каталогу" */
+.scroll-top{
+  position:fixed; right:20px; bottom:90px; width:48px; height:48px; z-index:60;
+  border-radius:50%; background:var(--panel); border:1px solid var(--line);
+  color:var(--text); font-size:20px; cursor:pointer;
+  display:none; align-items:center; justify-content:center; transition:.2s;
+}
+.scroll-top:hover{border-color:var(--pink); color:var(--pink)}
+.scroll-top.show{display:flex}
+
 /* категории */
 .cat-block{margin-top:40px}
 .cat-title{font-family:'Unbounded'; font-size:20px; color:var(--gold); margin-bottom:6px; padding-bottom:10px; border-bottom:2px solid rgba(255,45,120,.35); display:inline-block}
@@ -957,6 +967,8 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
 
 <div class="toast" id="toast"></div>
 
+<button class="scroll-top" id="scrollTop" aria-label="К каталогу">↑</button>
+
 <button class="fab-cart" id="fab" aria-label="Корзина">🛒<span class="cart-count" id="fabCount">0</span></button>
 <script>
 (function(){
@@ -1306,6 +1318,18 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
   }, 60000);
 
   // ---------- прочее ----------
+  var scrollTopBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', function(){
+    if (scrollTopBtn){
+      scrollTopBtn.classList.toggle('show', window.scrollY > 600);
+    }
+  });
+  if (scrollTopBtn){
+    scrollTopBtn.addEventListener('click', function(){
+      document.getElementById('catalog').scrollIntoView({behavior:'smooth'});
+    });
+  }
+
   document.getElementById('burger').addEventListener('click', function(){
     document.getElementById('menu').classList.toggle('open');
   });
