@@ -64,6 +64,7 @@ nav.menu a:hover{color:var(--pink)}
 
 /* hero */
 .hero{padding:90px 0 70px; position:relative}
+.hero > .wrap > div{display:flex; flex-direction:column; gap:16px}
 .kicker{display:inline-block; font-family:'Unbounded'; font-size:13px; letter-spacing:.14em; color:var(--pink); border:1px solid rgba(255,45,120,.4); padding:8px 16px; border-radius:999px; margin-bottom:22px}
 .hero h1{font-size:clamp(30px,5vw,54px); font-weight:800; line-height:1.15; margin-bottom:18px}
 .hero h1 em{font-style:normal; color:var(--green)}
@@ -178,17 +179,19 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
   border-radius:999px; display:none; align-items:center; justify-content:center; padding:0 5px;
 }
 .fab-cart{
-  position:fixed; right:18px; bottom:18px; width:56px; height:56px; z-index:60;
+  position:fixed; right:18px; bottom:18px; z-index:60;
   border-radius:50%; background:var(--green); color:#06230d; font-size:24px;
   border:none; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,.45);
   display:none; align-items:center; justify-content:center; transition:.2s;
 }
+.fab-cart.show{display:flex}
 .fab-cart:active{ transform:scale(.92); }
 .fab{
   position:fixed; right:20px; bottom:22px; z-index:60; width:60px; height:60px;
   border-radius:50%; border:none; background:var(--pink); color:#fff; font-size:24px;
   cursor:pointer; box-shadow:0 10px 30px rgba(255,45,120,.45); display:none; transition:.2s;
 }
+.fab.show{display:flex}
 .fab:hover{background:var(--green); transform:translateY(-3px)}
 .cart-overlay{position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:70; opacity:0; pointer-events:none; transition:.25s}
 .cart-drawer{
@@ -200,16 +203,16 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
 .cart-drawer.open{transform:translateX(0)}
 .cart-head{display:flex; align-items:center; justify-content:space-between; padding:20px; border-bottom:1px solid var(--line)}
 .cart-head h3{font-size:16px}
-.cart-close{background:none; border:1px solid var(--line); color:var(--text); border-radius:10px; padding:6px 12px; cursor:pointer; font-size:16px}
+.cart-close{background:none; border:1px solid var(--line); color:var(--text); border-radius:10px; padding:6px 12px; cursor:pointer; font-size:16px; min-width:44px; min-height:44px; display:flex; align-items:center; justify-content:center}
 .cart-items{flex:1; overflow-y:auto; padding:16px 20px; display:flex; flex-direction:column; gap:14px}
 .cart-empty{color:var(--muted); text-align:center; padding:40px 10px; font-size:14px}
 .cart-item{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px}
 .cart-item .ci-name{font-weight:700; font-size:13px; line-height:1.4; margin-bottom:8px; padding-right:24px; position:relative}
-.ci-del{position:absolute; right:0; top:0; background:none; border:none; color:var(--muted); cursor:pointer; font-size:15px}
+.ci-del{position:absolute; right:0; top:0; background:none; border:none; color:var(--muted); cursor:pointer; font-size:15px; min-width:44px; min-height:44px; display:flex; align-items:center; justify-content:center}
 .ci-del:hover{color:var(--pink)}
 .ci-row{display:flex; align-items:center; justify-content:space-between; gap:10px}
 .qty{display:flex; align-items:center; gap:10px}
-.qty button{width:28px; height:28px; border-radius:8px; border:1px solid var(--line); background:var(--card2); color:var(--text); cursor:pointer; font-size:15px}
+.qty button{width:28px; height:28px; border-radius:8px; border:1px solid var(--line); background:var(--card2); color:var(--text); cursor:pointer; font-size:15px; min-width:44px; min-height:44px}
 .qty button:hover{border-color:var(--green); color:var(--green)}
 .qty span{font-family:'Unbounded'; min-width:22px; text-align:center; font-size:14px}
 .ci-sum{color:var(--gold); font-family:'Unbounded'; font-size:14px; font-weight:800}
@@ -250,7 +253,8 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
 .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
 
 @media(max-width:900px){
-  .tiles{grid-template-columns:repeat(auto-fill, minmax(300px, 1fr))}
+  .tiles{grid-template-columns:repeat(auto-fill, minmax(280px, 1fr))}
+  .faq-row{grid-template-columns:repeat(2, 1fr)}
 }
 @media(max-width:640px){
   .burger{display:block}
@@ -258,6 +262,62 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
   nav.menu.open{display:flex}
   .tiles{grid-template-columns:1fr}
   .tiles .tile{aspect-ratio:auto; min-height:280px}
+  .tiles .tile h3{font-size:14px}
+  .tiles .tile-desc{font-size:13px}
+  .wrap{padding:0 14px}
+  section{padding:50px 0}
+  .hero{padding:60px 0 40px}
+  .hero h1{font-size:26px}
+  .hero p{font-size:15px}
+  .nav{padding:10px 0}
+  .logo{font-size:15px}
+  .cart-btn{font-size:16px; padding:6px 10px}
+  .kicker{font-size:11px; padding:6px 12px}
+  h2{font-size:22px; padding-right:20px}
+  .badge-num{width:40px; height:40px; font-size:11px}
+  .sec-head{gap:10px; margin-bottom:10px}
+  .sec-sub{font-size:14px; margin-bottom:20px}
+  .tile{padding:16px 18px}
+  .tile h3{font-size:14px; padding-right:24px}
+  .tile-desc{font-size:13px}
+  .tile-emoji{font-size:24px; margin-bottom:8px}
+  .step-num{font-size:11px}
+  .chips{gap:6px}
+  .chip{font-size:11px; padding:7px 12px}
+  .cat-title{font-size:16px}
+  .prod-card .tile-emoji{font-size:20px}
+  .prod-card h3{font-size:12px}
+  .prod-card .tile-desc{font-size:12px}
+  .prod-card .price{font-size:14px}
+  .prod-card .add-btn{padding:8px 12px; font-size:11px}
+  .prod-card .tile-cta{padding-top:10px}
+  .contacts-row{gap:10px}
+  .capsule{padding:14px 16px; min-width:auto}
+  .capsule .cap-label{font-size:10px}
+  .capsule .cap-value{font-size:13px}
+  .messengers{flex:1 1 100%; margin-top:4px}
+  .messengers .btn{padding:10px 16px; font-size:12px}
+  .form{gap:10px}
+  .form input,.form textarea{padding:12px 14px; font-size:14px}
+  .form-note{font-size:11px}
+  footer{padding:24px 0; font-size:12px}
+  .bg-shapes span{font-size:50px !important}
+  .bg-shapes{opacity:.5}
+  .cart-drawer{width:100%}
+  .mode-tabs button{font-size:8px; padding:8px 4px}
+  .opt-block{padding:10px 12px}
+  .opt-label{font-size:11px}
+  .opt-block input,.opt-block select{padding:8px 10px; font-size:13px}
+  .order-btn{padding:12px 14px; font-size:13px}
+  .order-btn b{font-size:14px}
+  .cart-head{padding:16px}
+  .cart-head h3{font-size:14px}
+  .cart-items{padding:12px 14px}
+  .cart-foot{padding:14px}
+  .cart-item{padding:12px}
+  .scroll-top{right:14px; bottom:84px; width:42px; height:42px; font-size:18px}
+  .fab-cart,.fab{right:14px; bottom:14px; width:52px; height:52px; font-size:22px}
+  .fab-cart{bottom:74px}
 }
 </style>
 </head>
@@ -305,9 +365,11 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
 <section class="hero">
   <div class="wrap">
     <span class="kicker">Кальмар Рамён · Обнинск</span>
-    <h1>Рамен и азиатская лапша <em>в Обнинске</em></h1>
-    <p>Кафе «Кальмар Рамён» — место, где вы сами собираете лапшу: выбираете основу, добавляете любимые топпинги и получаете свою порцию. А ещё у нас азиатские напитки и лапша на вынос.</p>
-    <a class="btn hero-cta" href="#catalog">Собрать заказ</a>
+    <div style="display:flex; flex-direction:column; gap:16px">
+      <h1>Рамен и азиатская лапша <em>в Обнинске</em></h1>
+      <p>Кафе «Кальмар Рамён» — место, где вы сами собираете лапшу: выбираете основу, добавляете любимые топпинги и получаете свою порцию. А ещё у нас азиатские напитки и лапша на вынос.</p>
+      <a class="btn hero-cta" href="#catalog">Собрать заказ</a>
+    </div>
   </div>
 </section>
 
