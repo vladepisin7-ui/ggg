@@ -8,9 +8,6 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# Отдаём статические файлы из папки static
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
 # Разрешаем запросы с твоего сайта
 app.add_middleware(
     CORSMiddleware,
@@ -91,7 +88,7 @@ async def handle_order(data: OrderData):
 
 @app.get("/")
 async def serve_index():
-    return FileResponse("static/ggg.html")
+    return FileResponse("ggg.html")
 
 
 @app.get("/health")
