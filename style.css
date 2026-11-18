@@ -254,6 +254,8 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
   nav.menu.open{display:grid; grid-template-columns:1fr 1fr; gap:10px}
   nav.menu.open a{text-align:center; padding:10px 0; border:1px solid var(--line); border-radius:10px}
   .tiles{grid-template-columns:1fr}
+  .tiles-products{grid-template-columns:1fr 1fr !important}
+  .tiles-products .prod-card{min-height:auto}
   .tiles .tile{aspect-ratio:auto; min-height:280px}
   .tiles .tile h3{font-size:14px}
   .tiles .tile-desc{font-size:13px}
