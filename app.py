@@ -2,15 +2,27 @@ import os
 import httpx
 import logging
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
+
+# Раздаём статические файлы (CSS, JS) из корня
+@app.middleware("http")
+async def serve_static(request, call_next):
+    path = request.url.path.lstrip("/")
+    if path in ["style.css", "script.js"]:
+        filepath = os.path.join(os.path.dirname(__file__), path)
+        if os.path.exists(filepath):
+            with open(filepath, "rb") as f:
+                content = f.read()
+            mime = "text/css" if path.endswith(".css") else "application/javascript"
+            return Response(content=content, media_type=mime)
+    return await call_next(request)
 
 # Разрешаем запросы с твоего сайта
 app.add_middleware(
