@@ -250,8 +250,8 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
 }
 @media(max-width:640px){
   .burger{display:block}
-  nav.menu{display:none; position:absolute; top:100%; left:0; right:0; background:var(--panel); flex-direction:column; padding:18px 20px; gap:14px; border-bottom:1px solid var(--line)}
-  nav.menu.open{display:flex}
+  nav.menu{display:none; position:absolute; top:100%; left:0; right:0; background:var(--panel); display:grid; grid-template-columns:1fr 1fr; padding:18px 20px; gap:14px; border-bottom:1px solid var(--line)}
+  nav.menu.open{display:grid}
   .tiles{grid-template-columns:1fr}
   .tiles .tile{aspect-ratio:auto; min-height:280px}
   .tiles .tile h3{font-size:14px}
