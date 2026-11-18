@@ -253,12 +253,14 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
   nav.menu{display:none; position:absolute; top:100%; left:0; right:0; background:var(--panel); padding:18px 20px; border-bottom:1px solid var(--line)}
   nav.menu.open{display:grid; grid-template-columns:1fr 1fr; gap:10px}
   nav.menu.open a{text-align:center; padding:10px 0; border:1px solid var(--line); border-radius:10px}
-  .tiles{grid-template-columns:1fr}
+  nav.menu.open a:last-child{grid-column:1 / -1; justify-self:center; width:fit-content}
+  .tiles{grid-template-columns:1fr 1fr}
   .tiles-products{grid-template-columns:1fr 1fr !important}
   .tiles-products .prod-card{min-height:auto}
-  .tiles .tile{aspect-ratio:auto; min-height:280px}
-  .tiles .tile h3{font-size:14px}
-  .tiles .tile-desc{font-size:13px}
+  .tiles .tile{aspect-ratio:auto; min-height:auto; padding:14px 16px}
+  .tiles .tile h3{font-size:13px; padding-right:20px}
+  .tiles .tile-desc{font-size:12px; line-height:1.4}
+  .tiles .tile-emoji{font-size:20px; margin-bottom:6px}
   .wrap{padding:0 14px}
   section{padding:50px 0}
   .hero-content{align-items:stretch}
