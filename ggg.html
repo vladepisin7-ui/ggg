@@ -64,7 +64,7 @@ nav.menu a:hover{color:var(--pink)}
 
 /* hero */
 .hero{padding:90px 0 70px; position:relative}
-.hero > .wrap > div{display:flex; flex-direction:column; gap:16px}
+.hero-content{display:flex; flex-direction:column; gap:16px; align-items:flex-start}
 .kicker{display:inline-block; font-family:'Unbounded'; font-size:13px; letter-spacing:.14em; color:var(--pink); border:1px solid rgba(255,45,120,.4); padding:8px 16px; border-radius:999px; margin-bottom:22px}
 .hero h1{font-size:clamp(30px,5vw,54px); font-weight:800; line-height:1.15; margin-bottom:18px}
 .hero h1 em{font-style:normal; color:var(--green)}
@@ -183,13 +183,16 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
   border-radius:50%; background:var(--green); color:#06230d; font-size:24px;
   border:none; cursor:pointer; box-shadow:0 8px 24px rgba(0,0,0,.45);
   display:none; align-items:center; justify-content:center; transition:.2s;
+  line-height:1; padding:0;
 }
+.fab-cart > span:first-child{font-size:24px}
 .fab-cart.show{display:flex}
 .fab-cart:active{ transform:scale(.92); }
 .fab{
   position:fixed; right:20px; bottom:22px; z-index:60; width:60px; height:60px;
   border-radius:50%; border:none; background:var(--pink); color:#fff; font-size:24px;
   cursor:pointer; box-shadow:0 10px 30px rgba(255,45,120,.45); display:none; transition:.2s;
+  align-items:center; justify-content:center; line-height:1; padding:0;
 }
 .fab.show{display:flex}
 .fab:hover{background:var(--green); transform:translateY(-3px)}
@@ -266,7 +269,8 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
   .tiles .tile-desc{font-size:13px}
   .wrap{padding:0 14px}
   section{padding:50px 0}
-  .hero{padding:60px 0 40px}
+  .hero-content{align-items:stretch}
+  .hero-content .btn{width:100%}
   .hero h1{font-size:26px}
   .hero p{font-size:15px}
   .nav{padding:10px 0}
@@ -365,7 +369,7 @@ footer .shapes{font-family:'Unbounded'; color:var(--gold); margin:10px 0; letter
 <section class="hero">
   <div class="wrap">
     <span class="kicker">Кальмар Рамён · Обнинск</span>
-    <div style="display:flex; flex-direction:column; gap:16px">
+    <div class="hero-content">
       <h1>Рамен и азиатская лапша <em>в Обнинске</em></h1>
       <p>Кафе «Кальмар Рамён» — место, где вы сами собираете лапшу: выбираете основу, добавляете любимые топпинги и получаете свою порцию. А ещё у нас азиатские напитки и лапша на вынос.</p>
       <a class="btn hero-cta" href="#catalog">Собрать заказ</a>
